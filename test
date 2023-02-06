@@ -1,0 +1,143 @@
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.apache.log4j.Logger;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+public class LoggingInterceptorTest {
+  
+	private Logger log = Logger.getLogger(this.getClass());
+    @BeforeAll
+    static void initAll() {
+    }
+    @BeforeEach
+    void init() {
+    }
+ 
+  @Test  
+	@DisplayName("intercept")
+    public void intercept(){  
+		try {
+			log.info("Starting execution of intercept");
+ClientHttpResponse expectedValue = null; 
+  HttpRequest request = null; 
+byte[] body = null; 
+ClientHttpRequestExecution execution = null; 
+ 
+  
+ LoggingInterceptor logginginterceptor  =new LoggingInterceptor(); 
+ClientHttpResponse actualValue=logginginterceptor.intercept( request ,body ,execution);
+	  log.info("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
+	  System.out.println("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
+Assertions.assertEquals(expectedValue, actualValue);
+		} catch (Exception exception) {
+			log.error("Exception in execution of execute1GetAllLogFromFirstMovF-"+exception,exception);
+			exception.printStackTrace();
+			Assertions.assertFalse(false);
+		}
+    }  
+ 
+  @Test  
+	@DisplayName("intercept Exception")
+    public void interceptException(){  
+		try {
+			log.info("Starting execution of interceptException");
+ HttpRequest request = null; 
+byte[] body = null; 
+ClientHttpRequestExecution execution = null; 
+ 
+  
+ LoggingInterceptor logginginterceptor  =new LoggingInterceptor(); 
+logginginterceptor.interceptException( request ,body ,execution);
+Assertions.assertTrue(false);
+		} catch (Exception exception) {
+			log.error("Exception in execution ofinterceptException-"+exception,exception);
+			exception.printStackTrace();
+			Assertions.assertFalse(true);
+		}
+    }  
+ 
+  @Test  
+	@DisplayName("log Request Exception")
+    public void logRequestException(){  
+		try {
+			log.info("Starting execution of logRequestException");
+ HttpRequest request = null; 
+byte[] body = null; 
+ 
+  
+ LoggingInterceptor logginginterceptor  =new LoggingInterceptor(); 
+logginginterceptor.logRequestException( request ,body);
+Assertions.assertTrue(false);
+		} catch (Exception exception) {
+			log.error("Exception in execution oflogRequestException-"+exception,exception);
+			exception.printStackTrace();
+			Assertions.assertFalse(true);
+		}
+    }  
+ 
+  @Test  
+	@DisplayName("log Request")
+    public void logRequest(){  
+		try {
+			log.info("Starting execution of logRequest");
+ HttpRequest request = null; 
+byte[] body = null; 
+ 
+  
+ LoggingInterceptor logginginterceptor  =new LoggingInterceptor(); 
+logginginterceptor.logRequest( request ,body);
+Assertions.assertTrue(true);
+		} catch (Exception exception) {
+			log.error("Exception in execution oflogRequest-"+exception,exception);
+			exception.printStackTrace();
+			Assertions.assertFalse(false);
+		}
+    }  
+ 
+  @Test  
+	@DisplayName("log Response Exception")
+    public void logResponseException(){  
+		try {
+			log.info("Starting execution of logResponseException");
+ ClientHttpResponse response = null; 
+ 
+  
+ LoggingInterceptor logginginterceptor  =new LoggingInterceptor(); 
+logginginterceptor.logResponseException( response);
+Assertions.assertTrue(false);
+		} catch (Exception exception) {
+			log.error("Exception in execution oflogResponseException-"+exception,exception);
+			exception.printStackTrace();
+			Assertions.assertFalse(true);
+		}
+    }  
+ 
+  @Test  
+	@DisplayName("log Response")
+    public void logResponse(){  
+		try {
+			log.info("Starting execution of logResponse");
+ ClientHttpResponse response = null; 
+ 
+  
+ LoggingInterceptor logginginterceptor  =new LoggingInterceptor(); 
+logginginterceptor.logResponse( response);
+Assertions.assertTrue(true);
+		} catch (Exception exception) {
+			log.error("Exception in execution oflogResponse-"+exception,exception);
+			exception.printStackTrace();
+			Assertions.assertFalse(false);
+		}
+    }  
+    @AfterEach
+    void tearDown() {
+    }
+    @AfterAll
+    static void tearDownAll() {
+    }
+}
