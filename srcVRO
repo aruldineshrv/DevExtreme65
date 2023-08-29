@@ -1,0 +1,50 @@
+import org.apache.avro.Schema;
+import org.apache.avro.SchemaBuilder;
+import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericDatumWriter;
+import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.io.DatumWriter;
+import org.apache.avro.io.Encoder;
+import org.apache.avro.io.EncoderFactory;
+import org.apache.avro.io.JsonEncoder;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+public class AvroGenerator {
+    public static void main(String[] args) throws IOException {
+        // Define an Avro schema
+        Schema schema = SchemaBuilder.record("Person")
+                .fields()
+                .name("name").type().stringType().noDefault()
+                .name("age").type().intType().noDefault()
+                .endRecord();
+
+        // Create a GenericRecord using the defined schema
+        GenericRecord person = new GenericData.Record(schema);
+        person.put("name", "John");
+        person.put("age", 30);
+
+        // Serialize the GenericRecord to JSON
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<>(schema);
+        Encoder encoder = EncoderFactory.get().jsonEncoder(schema, outputStream);
+        datumWriter.write(person, encoder);
+        encoder.flush();
+        String avroJson = new String(outputStream.toByteArray());
+
+        // Display the serialized JSON
+        System.out.println("Serialized AVRO JSON: ");
+        System.out.println(avroJson);
+
+        // Deserialize the JSON back to a GenericRecord
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(avroJson.getBytes());
+        JsonDecoder jsonDecoder = DecoderFactory.get().jsonDecoder(schema, inputStream);
+        DatumReader<GenericRecord> datumReader = new GenericDatumReader<>(schema);
+        GenericRecord deserializedPerson = datumReader.read(null, jsonDecoder);
+
+        // Display the deserialized GenericRecord
+        System.out.println("\nDeserialized GenericRecord: ");
+        System.out.println(deserializedPerson);
+    }
+}
